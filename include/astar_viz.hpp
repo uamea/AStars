@@ -34,7 +34,7 @@ namespace astar_viz
         CLOSED = 'X'
     };
 
-    MapLetters mapStateToLetter(MapStates state); 
+    extern MapLetters mapStateToLetter(MapStates state); 
 
     class AStarViz
     {

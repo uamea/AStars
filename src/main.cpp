@@ -1,4 +1,6 @@
 #include <algorithms/weighted_astar.hpp>
+#include <algorithms/dijkstra.hpp>
+#include <algorithms/bidirectional_astar.hpp>
 #include <astar_app.hpp>
 
 using namespace astar_algorithms;
@@ -26,7 +28,7 @@ int main()
     std::pair<int, int> start = {0, 0};
     std::pair<int, int> goal = {14, 14};
 
-    std::unique_ptr<IAStar> astar = std::make_unique<WeightedAStar>(map, start, goal, 1.3);
+    std::unique_ptr<IAStar> astar = std::make_unique<BidirectionalAStar>(map, start, goal);
 
     // Define A* App
     astar_app::AStarApp app(map, start, goal, std::move(astar), 10);
