@@ -3,6 +3,7 @@
 #include <memory>
 #include <astar_viz.hpp>
 #include <algorithms/algorithm_base.hpp>
+#include <astar_utils.hpp>
 
 namespace astar_app
 {
