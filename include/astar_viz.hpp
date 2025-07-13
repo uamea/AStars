@@ -12,6 +12,17 @@
 namespace astar_viz
 {
 
+    enum class MapStates
+    {
+        EMPTY,
+        WALL,
+        START,
+        GOAL,
+        PATH,
+        OPEN_SET,
+        CLOSED_SET
+    }; 
+
     enum class MapLetters
     {
         EMPTY = '.',
@@ -22,6 +33,8 @@ namespace astar_viz
         OPEN = 'O',
         CLOSED = 'X'
     };
+
+    MapLetters mapStateToLetter(MapStates state); 
 
     class AStarViz
     {

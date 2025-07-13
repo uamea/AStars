@@ -8,25 +8,12 @@
 #include <algorithm>
 #include <limits>
 
+#include <algorithms/algorithm_base.hpp>
+#include <algorithms/algorithm_utils.hpp>
+
 namespace astar_algorithms
 {
-    double heuristic(
-        const std::pair<int, int> &a,
-        const std::pair<int, int> &b)
-    {
-        // L1 norm (Manhattan distance)
-        return std::abs(a.first - b.first) + std::abs(a.second - b.second);
-    }
-
-    enum class AlgorithmState
-    {
-        NOT_STARTED,
-        RUNNING,
-        GOAL_FOUND,
-        NO_PATH_EXISTS
-    };
-
-    class BasicAStar
+    class BasicAStar : public IAStar
     {
     public:
         BasicAStar() = default;
@@ -54,7 +41,7 @@ namespace astar_algorithms
         }
 
         // Initialize the algorithm for step-by-step execution
-        void initializeSearch()
+        void initializeSearch() override
         {
             // Clear previous state
             open_set_ = std::priority_queue<std::pair<double, std::pair<int, int>>,
@@ -87,7 +74,7 @@ namespace astar_algorithms
         }
 
         // Execute one step of the A* algorithm
-        bool stepSearch()
+        bool stepSearch() override
         {
             if (state_ != AlgorithmState::RUNNING || open_set_.empty())
             {
@@ -166,8 +153,8 @@ namespace astar_algorithms
             return true; // Continue algorithm
         }
 
-        // Run complete A* algorithm (original method)
-        std::vector<std::pair<int, int>> findPath()
+        // Run complete A* algorithm
+        std::vector<std::pair<int, int>> findPath() override
         {
             initializeSearch();
             while (stepSearch())
@@ -178,13 +165,13 @@ namespace astar_algorithms
         }
 
         // Getters for visualization
-        AlgorithmState getState() const { return state_; }
-        std::pair<int, int> getCurrentNode() const { return current_node_; }
-        const std::vector<std::vector<bool>> &getClosedSet() const { return closed_set_; }
-        const std::vector<std::vector<bool>> &getOpenSet() const { return open_set_viz_; }
-        const std::vector<std::pair<int, int>> &getPath() const { return path_; }
-        bool isInOpenSet(int x, int y) const { return open_set_viz_[x][y]; }
-        bool isInClosedSet(int x, int y) const { return closed_set_[x][y]; }
+        AlgorithmState getState() const override { return state_; }
+        std::pair<int, int> getCurrentNode() const override { return current_node_; }
+        const std::vector<std::vector<bool>> &getClosedSet() const override { return closed_set_; }
+        const std::vector<std::vector<bool>> &getOpenSet() const override { return open_set_viz_; }
+        const std::vector<std::pair<int, int>> &getPath() const override { return path_; }
+        bool isInOpenSet(int x, int y) const override { return open_set_viz_[x][y]; }
+        bool isInClosedSet(int x, int y) const override { return closed_set_[x][y]; }
 
     private:
         std::vector<std::vector<double>> map_;

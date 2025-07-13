@@ -3,6 +3,29 @@
 namespace astar_viz
 {
 
+    MapLetters mapStateToLetter(MapStates state)
+    {
+        switch (state)
+        {
+        case MapStates::EMPTY:
+            return MapLetters::EMPTY;
+        case MapStates::WALL:
+            return MapLetters::WALL;
+        case MapStates::START:
+            return MapLetters::START;
+        case MapStates::GOAL:
+            return MapLetters::GOAL;
+        case MapStates::PATH:
+            return MapLetters::PATH;
+        case MapStates::OPEN_SET:
+            return MapLetters::OPEN;
+        case MapStates::CLOSED_SET:
+            return MapLetters::CLOSED;
+        default:
+            return MapLetters::EMPTY;
+        }
+    }
+
     AStarViz::AStarViz(
         const std::vector<std::vector<double>> &map,
         const std::pair<int, int> &start,
@@ -20,7 +43,7 @@ namespace astar_viz
         noecho();
         keypad(stdscr, TRUE);
 
-        // Set up timer for 0.5 Hz updates (2 seconds interval)
+        // Set up interval timer
         const int UPDATE_INTERVAL_MS = static_cast<int>(1 / refreshRate_ * 1000); // Convert seconds to milliseconds
         timeout(UPDATE_INTERVAL_MS);                                              // Set getch() timeout
 
@@ -74,29 +97,12 @@ namespace astar_viz
                 {
                     ch = static_cast<char>(MapLetters::GOAL);
                 }
-                else if (map_[i][j] == 1)
+                else
                 {
-                    ch = static_cast<char>(MapLetters::WALL);
-                }
-                else if (map_[i][j] == 2)
-                {
-                    ch = static_cast<char>(MapLetters::PATH);
-                }
-                else if (map_[i][j] == 3)
-                {
-                    ch = static_cast<char>(MapLetters::OPEN);
-                }
-                else if (map_[i][j] == 4)
-                {
-                    ch = static_cast<char>(MapLetters::CLOSED);
-                }
-                else // Default to empty space
-                {
-                    ch = static_cast<char>(MapLetters::EMPTY);
+                    ch = static_cast<char>(mapStateToLetter(static_cast<MapStates>(map_[i][j])));
                 }
                 mvaddch(i, j, ch);
             }
         }
     }
-
 }

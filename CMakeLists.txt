@@ -16,7 +16,11 @@ include_directories(
 )
 
 # Create executable
-add_executable(astars src/main.cpp src/astar_viz.cpp)
+add_executable(astars 
+    src/main.cpp 
+    src/astar_viz.cpp 
+    src/astar_app.cpp 
+    src/algorithms/algorithm_utils.cpp)
 
 # Link ncurses library
 target_link_libraries(astars ${NCURSES_LIBRARIES})
